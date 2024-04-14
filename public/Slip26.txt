@@ -1,0 +1,229 @@
+SlipA1
+
+package Connection;
+
+import java.sql.*;
+
+class Ass1Q12 {
+
+    public static void main(String args[]) throws Exception {
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "SYSTEM");
+        Statement stmt = con.createStatement();
+
+        ResultSet rs = stmt.executeQuery("SELECT cname FROM college");
+         
+        System.out.println("College Name");
+        System.out.println();
+        
+       while (rs.next()) {
+
+           System.out.println(rs.getString(1));
+
+       }
+       con.close();
+   }
+}
+
+
+SlipA2
+
+package connection;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+/**
+ * Servlet implementation class Slip26B
+ */
+public class Slip26B extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private static final String COOKIE_NAME = "selectedHobby";
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public Slip26B() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		 response.setContentType("text/html");
+	        PrintWriter out = response.getWriter();
+	        out.println("<html>");
+	        out.println("<head>");
+	        out.println("<title>My Hobbies</title>");
+	        out.println("</head>");
+	        out.println("<body>");
+	        out.println("<h3>Select your favorite hobby:</h3>");
+	        out.println("<form method='post'>");
+	        out.println("<input type='radio' name='hobby' value='painting' /> Painting<br>");
+	        out.println("<input type='radio' name='hobby' value='drawing' /> Drawing<br>");
+	        out.println("<input type='radio' name='hobby' value='singing' /> Singing<br>");
+	        out.println("<input type='radio' name='hobby' value='swimming' /> Swimming<br>");
+	        out.println("<input type='submit' value='Submit' />");
+	        out.println("<input type='reset' value='Reset' />");
+	        out.println("</form>");
+	        out.println("</body>");
+	        out.println("</html>");
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+		String selectedHobby = request.getParameter("hobby");
+
+        // Check if the cookie with the same name already exists
+        boolean cookieExists = false;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(COOKIE_NAME)) {
+                    cookieExists = true;
+                    break;
+                }
+            }
+        }
+
+        // If cookie does not exist, create it and add it to the response
+        if (!cookieExists) {
+            Cookie hobbyCookie = new Cookie(COOKIE_NAME, selectedHobby);
+            hobbyCookie.setMaxAge(60 * 60 * 24 * 365); // set cookie to last 1 year
+            response.addCookie(hobbyCookie);
+        }
+
+        // Display a message to the user
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<title>My Hobbies</title>");
+        out.println("</head>");
+        out.println("<body>");
+        out.println("<h3>Your selected hobby is: " + selectedHobby + "</h3>");
+        out.println("</body>");
+        out.println("</html>");
+	}
+
+}
+
+
+SlipB2
+
+//main.java file
+import android.support.v7.app.AppCompatActivity; 
+import android.widget.AdapterView; 
+import android.view.View; 
+import android.os.Bundle; 
+import android.widget.ArrayAdapter; 
+import android.widget.Spinner; 
+import android.os.Bundle; 
+
+// Main Activity implements Adapter view 
+public class MainActivity 
+	extends AppCompatActivity 
+	implements AdapterView.OnItemSelectedListener { 
+
+	// create array of Strings 
+	// and store name of courses 
+	String[] courses = { "C", "Data structures", 
+						"Interview prep", "Algorithms", 
+						"DSA with java", "OS" }; 
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) 
+	{ 
+		super.onCreate(savedInstanceState); 
+		setContentView(R.layout.activity_main); 
+
+		// Take the instance of Spinner and 
+		// apply OnItemSelectedListener on it which 
+		// tells which item of spinner is clicked 
+		Spinner spino = findViewById(R.id.coursesspinner); 
+		spin.setOnItemSelectedListener(this); 
+
+		// Create the instance of ArrayAdapter 
+		// having the list of courses 
+		ArrayAdapter ad 
+			= new ArrayAdapter( 
+				this, 
+				android.R.layout.simple_spinner_item, 
+				courses); 
+                 // set simple layout resource file 
+		// for each item of spinner 
+		ad.setDropDownViewResource( 
+			android.R.layout 
+				.simple_spinner_dropdown_item); 
+
+		// Set the ArrayAdapter (ad) data on the 
+		// Spinner which binds data to spinner 
+		spino.setAdapter(ad); 
+	} 
+
+	// Performing action when ItemSelected 
+	// from spinner, Overriding onItemSelected method 
+	@Override
+	public void onItemSelected(AdapterView<*> arg0, 
+							View arg1, 
+							int position, 
+							long id) 
+	{ 
+
+		// make toastof name of course 
+		// which is selected in spinner 
+		Toast.makeText(getApplicationContext(), 
+					courses[position], 
+					Toast.LENGTH_LONG) 
+			.show(); 
+	} 
+
+	@Override
+	public void onNothingSelected(AdapterView<*> arg0) 
+	{ 
+		// Auto-generated method stub 
+	} 
+}
+
+
+//xml file
+
+<?xml version="1.0" encoding="utf-8"?> 
+<!--Constraint layout which contain Spinner widget-->
+
+<android.support.constraint.ConstraintLayout
+
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context="com.geeksforgeeks.Spinner.MainActivity"> 
+
+	<!--Spinner widget-->
+	<Spinner
+		android:id="@+id/coursesspinner"
+		android:layout_height="50dp"
+		android:layout_width="160dp"
+		android:layout_marginEnd="10dp"
+		android:layout_marginStart="10dp"
+		android:layout_marginBottom="10dp"
+		android:layout_marginTop="10dp"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"/> 
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,302 @@
+SlipA1
+
+<%@ page language="java" %>
+<html>
+<head>
+  <title>Reverse String Example</title>
+</head>
+<body>
+  <h1>Reverse String Example</h1>
+
+  <form method="post">
+    Enter a String: <input type="text" name="inputString"><br><br>
+    <input type="submit" value="Reverse">
+  </form>
+
+  <br><br>
+
+  <%
+    String inputString = request.getParameter("inputString");
+    if (inputString != null && !inputString.isEmpty()) {
+      String reversedString = new StringBuilder(inputString).reverse().toString();
+      out.println("Original String: " + inputString + "<br>");
+      out.println("Reversed String: " + reversedString);
+    }
+  %>
+
+</body>
+</html>
+
+
+SlipA2
+
+import java.applet.Applet;
+
+import java.awt.*;
+
+ 
+
+public class Slip30B extends Applet implements Runnable {
+
+    int x, z;
+
+    Thread t;
+
+    Image pic;
+
+ 
+
+    public void init() {
+
+        x = 50;
+
+        pic = getImage(getDocumentBase(), "./car.png");
+
+        t = new Thread(this);
+
+        t.start();
+
+    }
+
+ 
+
+    public void run() {
+
+ 
+
+        while (true) {
+
+            repaint();
+
+            x = x + 10;
+
+            if (x >= this.getWidth()) {
+
+                System.exit(0);
+
+            }
+
+            try {
+
+                Thread.sleep(100);
+
+            } catch (Exception e) {
+
+            }
+
+        }
+    }
+
+    public void paint(Graphics g) {
+
+        g.drawLine(0, 165, this.getWidth(), 165);
+
+        g.drawImage(pic, x, 120, this);
+
+    }
+}
+
+ 
+
+/*
+
+ * <applet code="Slip30B.java" width="800" height="500">
+
+ * </applet>
+
+ */
+
+
+SlipB1
+
+activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/firstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="First Name" />
+    <EditText
+        android:id="@+id/middleName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Middle Name" />
+    <EditText
+        android:id="@+id/lastName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Last Name" />
+    <EditText
+        android:id="@+id/dob"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Date of Birth" />
+    <EditText
+        android:id="@+id/address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Address" />
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Email" />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit" />
+</LinearLayout>
+
+activity_main2.xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/_firstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:text="First Name" />
+    <TextView
+        android:id="@+id/_middleName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:text="Middle Name" />
+    <TextView
+        android:id="@+id/_lastName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:text="Last Name" />
+    <TextView
+        android:id="@+id/_dob"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:text="Date of Birth" />
+    <TextView
+        android:id="@+id/_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:text="Address" />
+    <TextView
+        android:id="@+id/_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:text="Email" />
+
+</LinearLayout>
+
+MainActivity.java
+package com.example.slip1b;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        EditText firstName = findViewById(R.id.firstName);
+        EditText lastName = findViewById(R.id.lastName);
+        EditText middleName = findViewById(R.id.middleName);
+        EditText dob = findViewById(R.id.dob);
+        EditText address = findViewById(R.id.address);
+        EditText email = findViewById(R.id.email);
+        Button submit = findViewById(R.id.submit);
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+
+                intent.putExtra("firstName", firstName.getText().toString());
+                intent.putExtra("lastName", lastName.getText().toString());
+                intent.putExtra("middleName", middleName.getText().toString());
+                intent.putExtra("dob", dob.getText().toString());
+                intent.putExtra("address", address.getText().toString());
+                intent.putExtra("email", email.getText().toString());
+
+                startActivity(intent);
+
+            }
+        });
+
+
+    }
+}
+
+
+MainActivity2.java
+package com.example.slip1b;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.TextView;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class MainActivity2 extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main2);
+
+        TextView firstName = findViewById(R.id._firstName);
+        TextView middleName = findViewById(R.id._middleName);
+        TextView lastName = findViewById(R.id._lastName);
+        TextView dob = findViewById(R.id._dob);
+        TextView address = findViewById(R.id._address);
+        TextView email = findViewById(R.id._email);
+
+        Intent prevIntent = getIntent();
+
+        firstName.setText(prevIntent.getStringExtra("firstName"));
+        middleName.setText(prevIntent.getStringExtra("middleName"));
+        lastName.setText(prevIntent.getStringExtra("lastName"));
+        dob.setText(prevIntent.getStringExtra("dob"));
+        address.setText(prevIntent.getStringExtra("address"));
+        email.setText(prevIntent.getStringExtra("email"));
+
+    }
+}

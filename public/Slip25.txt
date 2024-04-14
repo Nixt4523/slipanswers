@@ -1,0 +1,262 @@
+SlipA1
+
+//Client
+
+import java.io.*;
+
+import java.net.*;
+
+ 
+
+class Slip25A {
+
+    public static void main(String args[]) throws Exception {
+
+ 
+
+        Socket s = new Socket("localhost", 2121);
+
+ 
+
+        DataInputStream din = new DataInputStream(System.in);
+
+        System.out.print("Enter the number : ");
+
+        String n = din.readLine();
+
+ 
+
+        DataOutputStream dos = new DataOutputStream(s.getOutputStream());
+
+ 
+
+        dos.writeBytes(n + "\n");
+
+        System.out.println("<<<<Factors>>>>");
+
+        int arr[] = new int[15];
+
+ 
+
+        DataInputStream dis = new DataInputStream(s.getInputStream());
+
+ 
+
+        for (int i = 0; i < 15; i++) {
+
+            arr[i] = dis.readInt();
+
+            System.out.println(arr[i] + " ");
+
+ 
+
+        }
+
+ 
+
+    }
+
+ 
+
+}
+
+ 
+
+ 
+
+//Server
+
+import java.io.*;
+
+import java.net.*;
+
+import java.util.Date;
+
+ 
+
+class Slip25A1 {
+
+    public static void main(String args[]) throws Exception {
+
+ 
+
+        ServerSocket ss = new ServerSocket(2121);
+
+        Socket s = ss.accept();
+
+ 
+
+        DataInputStream dis = new DataInputStream(s.getInputStream());
+
+ 
+
+        int n = Integer.parseInt(dis.readLine());
+
+        int arr[] = new int[15];
+
+        int i, j = 0;
+
+ 
+
+        DataOutputStream dos = new DataOutputStream(s.getOutputStream());
+
+ 
+
+        for (i = 1; i <= n; i++) {
+
+            if (n % i == 0) {
+
+                arr[j] = i;
+
+                dos.writeInt(arr[j]);
+
+                j++;
+
+ 
+
+            } else {
+
+                arr[j] = arr[j - 1];
+
+            }
+
+        }
+
+ 
+
+        s.close();
+
+ 
+
+    }
+
+ 
+
+}
+
+
+
+SlipA2
+
+package connection;
+
+import java.awt.*; 
+import java.awt.event.*; 
+import javax.swing.*; 
+import java.sql.*; 
+class Slip25B extends JFrame{ 
+	private JPanel panNorth,panSouth; 
+	private JLabel IblQuery; 
+	private JTextArea txtQuery; 
+	private JButton btnCreate,btnAlter,btnDrop; 
+	public Slip25B() { 
+		IblQuery = new JLabel("Type DDL Query"); 
+		txtQuery = new JTextArea(4,50); 
+		panNorth = new JPanel(); 
+		panNorth.add(IblQuery); 
+		panNorth.add(new JScrollPane(txtQuery)); 
+		btnCreate = new JButton("Create Table"); 
+		btnAlter = new JButton("Alter Table"); 
+		btnDrop = new JButton("Drop Table"); 
+		panSouth = new JPanel(); 
+		panSouth.add(btnCreate); 
+		panSouth.add(btnAlter); 
+		panSouth.add(btnDrop); 
+	setTitle("DDL Operations"); 
+	setSize(400,300); 
+	add(panNorth, "North"); 
+	add(panSouth, "South"); 
+	setVisible(true); 
+	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+	
+	ButtonHandler bh = new ButtonHandler(); 
+	btnCreate.addActionListener(bh); 
+	btnAlter.addActionListener(bh); 
+	btnDrop.addActionListener(bh); 
+	}
+	class ButtonHandler implements ActionListener{ 
+		public void actionPerformed(ActionEvent ae){ 
+			try{ 
+				Class.forName("oracle.jdbc.driver.OracleDriver"); 
+				Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe\",\"system\",\"system"); 
+			String sql = txtQuery.getText(); 
+			Statement s = con.createStatement(); 
+			s.execute(sql); txtQuery.setText(""); 
+			}
+			catch(Exception e) { 
+				JOptionPane.showMessageDialog(null,e); 
+			} 
+			} 
+		} 
+	
+	public static void main(String args[]) { 
+		new Slip25B();
+	}
+	}
+
+
+SlipB1
+
+//xml file
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <RatingBar
+        android:id="@+id/ratingBar1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="200dp"
+        android:numStars="5"
+        android:rating="3.5"/>
+    <Button
+        android:id="@+id/btnGet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ratingBar1"
+        android:layout_below="@+id/ratingBar1"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="60dp"
+        android:text="Get Rating"/>
+    <TextView
+        android:id="@+id/textview1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btnGet"
+        android:layout_below="@+id/btnGet"
+        android:layout_marginTop="20dp"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
+</RelativeLayout>
+
+
+//main.java file
+package com.tutlane.ratingbarexample;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RatingBar;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+    private RatingBar rBar;
+    private TextView tView;
+    private Button btn;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        rBar = (RatingBar) findViewById(R.id.ratingBar1);
+        tView = (TextView) findViewById(R.id.textview1);
+        btn = (Button)findViewById(R.id.btnGet);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int noofstars = rBar.getNumStars();
+                float getrating = rBar.getRating();
+                tView.setText("Rating: "+getrating+"/"+noofstars);
+            }
+        });
+    }
+}

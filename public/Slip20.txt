@@ -1,0 +1,485 @@
+SlipA1
+
+import java.util.*;
+import java.sql.*;  //step 1 - import the package
+
+public class DeletePreparedStatement
+{
+	public static void main(String args[]) throws Exception
+	{
+	Connection con;
+	PreparedStatement ps;
+	String query;
+	
+	int a,b;
+	
+	
+	Scanner sc=new Scanner(System.in);
+	System.out.println("Pls Enter ENO");  
+	a=sc.nextInt();
+		
+	
+	
+	Class.forName("com.mysql.jdbc.Driver");  //step 2 load & register the db driver
+	
+	con=DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb","root",""); //step 3 create the connection
+	
+	query="delete from emp where eno=?"; //step 5 - make the query
+		
+	ps=con.prepareStatement(query);  //step 4 create the statement
+	
+	ps.setInt(1,a);
+	
+	
+	int n=ps.executeUpdate(); // step 6 fire the query
+	if(n>0)
+	System.out.println(n+" RECORDs DELETED SUCCESSFULLY");
+	else
+	System.out.println("RECORD NOT DELETED");
+	
+	ps.close();		//step 7 close the statement and connections
+	con.close();
+	
+	}
+}
+
+
+SlipA2
+
+//using applet
+
+import java.applet.*;
+import java.awt.*;
+/* <APPLET     code= "Slip20.class"  width= "500" height= "300">
+     </APPLET> */
+
+public class Slip20 extends Applet implements Runnable
+{
+	
+	public void init()
+	{
+	Thread s=new Thread(this);
+	s.start();
+	}
+	
+	public void run()
+	{
+	repaint();
+	}
+	
+	public void paint(Graphics g)
+	{
+	g.drawLine(400,100,400,300);
+	g.drawRect(400,100,100,100);
+	g.drawLine(400,300,100,500);
+	g.drawLine(400,300,700,500);
+	g.drawRect(100,500,600,300);
+	g.drawRect(350,700,100,100);
+	}
+}
+
+//using awt
+
+import java.awt.*;
+
+ 
+
+public class Slip20B extends Frame {
+
+ 
+
+    int f = 0;
+
+ 
+
+    public Slip20B() {
+
+        Signal s = new Signal();
+
+        s.start();
+
+        setSize(500, 500);
+
+        setVisible(true);
+
+    }
+
+ 
+
+    public void paint(Graphics g) {
+
+        switch (f) {
+
+ 
+
+            case 0:
+
+                g.drawRect(100, 150, 90, 120);
+
+            case 1:
+
+                g.drawRect(130, 230, 20, 40);
+
+            case 2:
+
+                g.drawLine(150, 100, 100, 150);
+
+            case 3:
+
+                g.drawLine(150, 100, 190, 150);
+
+            case 4:
+
+                g.drawLine(150, 50, 150, 100);
+
+            case 5:
+
+                g.drawRect(150, 50, 20, 20);
+
+        }
+
+    }
+
+ 
+
+    class Signal extends Thread {
+
+        public void run() {
+
+            while (true) {
+
+                f = (f + 1) % 5;
+
+                repaint();
+
+                try {
+
+                    Thread.sleep(1000);
+
+                } catch (Exception e) {
+
+ 
+
+                }
+
+            }
+
+        }
+
+    }
+
+ 
+
+    public static void main(String args[]) {
+
+        new Slip20B();
+
+    }
+
+}
+
+
+SlipB1
+
+//main.java file
+package com.example.changeiamge;
+import android.app.Activity;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.renderscript.Type;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.TextView;
+public class MainActivity extends Activity implements OnCheckedChangeListener {
+ RadioGroup group1, group2;
+ Button gen;
+ ImageView img;
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+ // TODO Auto-generated method stub
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_main);
+ group1 = (RadioGroup) findViewById(R.id.rg1);
+ group1.setOnCheckedChangeListener((OnCheckedChangeListener) this);
+ group2 = (RadioGroup) findViewById(R.id.rg2);
+ group2.setOnCheckedChangeListener((OnCheckedChangeListener) this);
+ img = (ImageView) findViewById(R.id.imageView1);
+ // oncheckedChanged function
+ gen = (Button) findViewById(R.id.button1);
+ gen.setOnClickListener(new View.OnClickListener() {
+ @Override
+ public void onClick(View v) {
+ // TODO Auto-generated method stub
+ }
+ });
+ }
+ @Override
+ public void onCheckedChanged(RadioGroup group, int checkedId) {
+ // TODO Auto-generated method stub
+ switch (checkedId) {
+ case R.id.radioButton1:
+ img.setImageResource(R.drawable.image4);
+ break;
+ case R.id.radioButton2:
+ img.setImageResource(R.drawable.image5);
+ break;
+ case R.id.radioButton3:
+ img.setImageResource(R.drawable.image6);
+ break;
+ case R.id.radioButton4:
+ img.setImageResource(R.drawable.image7);
+ break;
+ default:
+ break;
+ }
+ }
+}
+
+ActivityMain.xml
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ android:paddingBottom="@dimen/activity_vertical_margin"
+ android:paddingLeft="@dimen/activity_horizontal_margin"
+ android:paddingRight="@dimen/activity_horizontal_margin"
+ android:paddingTop="@dimen/activity_vertical_margin"
+ tools:context=".MainActivity" >
+ <LinearLayout
+ android:layout_width="match_parent"
+ android:layout_height="wrap_content"
+ android:orientation="horizontal"
+ android:paddingBottom="40px"
+ android:weightSum="2" >
+ <RadioGroup
+ android:id="@+id/rg1"
+ android:layout_width="wrap_content"
+ android:layout_height="match_parent"
+ android:layout_weight="1"
+ android:orientation="vertical" >
+ <RadioButton
+ android:id="@+id/radioButton1"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:layout_alignParentRight="true"
+ android:layout_alignParentTop="true"
+ android:layout_marginTop="20dp"
+ android:text="Image2" />
+ <RadioButton
+ android:id="@+id/radioButton2"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:layout_alignBaseline="@+id/radioButton1"
+ android:layout_alignBottom="@+id/radioButton1"
+ android:layout_alignParentLeft="true"
+ android:text="Image1" />
+ </RadioGroup>
+ <RadioGroup
+ android:id="@+id/rg2"
+ android:layout_width="wrap_content"
+ android:layout_height="match_parent"
+ android:layout_weight="1"
+ android:orientation="vertical" >
+ <RadioButton
+ android:id="@+id/radioButton3"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:layout_marginTop="30dp"
+ android:text="Image3" />
+ <RadioButton
+ android:id="@+id/radioButton4"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:layout_alignBaseline="@+id/radioButton3"
+ android:layout_alignBottom="@+id/radioButton3"
+ android:layout_alignParentRight="true"
+ android:text="Image4" />
+ </RadioGroup>
+ </LinearLayout>
+ <Button
+ android:id="@+id/button1"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:layout_alignParentLeft="true"
+ android:layout_alignParentRight="true"
+ android:layout_centerVertical="true"
+ android:text="Change Image" />
+ <ImageView
+ android:id="@+id/imageView1"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:layout_alignLeft="@+id/button1"
+ android:layout_alignParentBottom="true"
+ android:layout_alignParentRight="true"
+ android:layout_below="@+id/button1"
+ android:layout_marginTop="50dp"
+ android:src="@drawable/ic_launcher" />
+</RelativeLayout>
+
+
+SlipB2
+
+xml file 
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ tools:context="com.example.stringoperation_radiobutton.MainActivity"
+ android:orientation="horizontal">
+ <TextView
+ android:id="@+id/tvRg"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Enter String:"
+ android:textAppearance="?android:attr/textAppearanceMedium"
+ android:textSize="40dp" />
+ <EditText
+ android:id="@+id/tvRg1"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:layout_alignParentEnd="true"
+ android:layout_toRightOf="@id/tvRg"
+ android:text=""
+ android:textSize="40dp">
+ </EditText>
+ <RadioGroup
+ android:layout_width="match_parent"
+ android:layout_height="wrap_content"
+ android:layout_below="@+id/tvRg"
+ android:layout_centerHorizontal="true"
+ android:orientation="vertical"
+ android:layout_marginTop="20dp"
+ android:id="@+id/radioGroup" >
+ <RadioButton
+ android:id="@+id/rb1"
+ android:layout_width="match_parent"
+ android:layout_height="wrap_content"
+ android:checked="false"
+ android:text="Uppercase" />
+ <RadioButton
+ android:id="@+id/rb2"
+ android:layout_width="match_parent"
+ android:layout_height="wrap_content"
+ android:text="Lowercase"
+ android:checked="false" />
+ <RadioButton
+ android:id="@+id/rb3"
+ android:layout_width="match_parent"
+ android:layout_height="wrap_content"
+ android:text="Right 5 character"
+ android:checked="false" />
+ <RadioButton
+ android:id="@+id/rb4"
+ android:layout_width="match_parent"
+ android:layout_height="wrap_content"
+ android:text="Left 5 character"
+ android:checked="false" />
+ <Button
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:layout_gravity="center"
+ android:layout_below="@id/rb4"
+ android:text="Click"
+ android:textSize="20dp"
+ android:id="@+id/btn_submit"
+ android:textAlignment="center">
+ </Button>
+ <TextView
+ android:id="@+id/tvRg2"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Output"
+ android:textAppearance="?android:attr/textAppearanceMedium"
+ android:textSize="40dp">
+ </TextView>
+ <TextView
+ android:id="@+id/tvRg3"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:layout_alignParentEnd="true"
+ android:layout_toRightOf="@id/tvRg2"
+ android:text=""
+ android:textSize="40dp">
+ </TextView>
+ </RadioGroup>
+</RelativeLayout>
+
+mainactivity file
+
+package com.example.stringoperation_radiobutton;
+import androidx.appcompat.app.AppCompatActivity;
+import android.hardware.biometrics.BiometricManager;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import java.util.Locale;
+public class MainActivity extends AppCompatActivity {
+ // These are the global variables
+ RadioGroup radioGroup;
+ RadioButton rb1, rb2, rb3, rb4;
+ RadioButton selectedRadioButton;
+ Button buttonSubmit;
+ TextView tvRg3, tvRg1;
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_main);
+ // layout instances
+ buttonSubmit = (Button) findViewById(R.id.btn_submit);
+ radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+ rb1 = (RadioButton) findViewById(R.id.rb1);
+ rb2 = (RadioButton) findViewById(R.id.rb2);
+ rb3 = (RadioButton) findViewById(R.id.rb3);
+ rb4 = (RadioButton) findViewById(R.id.rb4);
+ tvRg3 = findViewById(R.id.tvRg3);
+ tvRg1 = findViewById(R.id.tvRg1);
+ /*
+ Submit Button
+ */
+ buttonSubmit.setOnClickListener(new View.OnClickListener() {
+ @Override
+ public void onClick(View v) {
+ //Get the selected RadioButton
+ selectedRadioButton = (RadioButton) 
+findViewById(radioGroup.getCheckedRadioButtonId());
+ // get RadioButton text
+ String yourVote = selectedRadioButton.getText().toString();
+ String radioButtonChoices = "";
+ //String Rg3,Rg1;
+ if (rb1.isChecked()) {
+ radioButtonChoices += tvRg1.getText().toString();
+ tvRg3.setText(radioButtonChoices.toUpperCase(Locale.ROOT));
+ }
+ else {
+ }
+ if (rb2.isChecked()) {
+ radioButtonChoices += tvRg1.getText().toString();
+ tvRg3.setText(radioButtonChoices.toLowerCase(Locale.ROOT));
+ } else {
+ }
+ if (rb3.isChecked()) {
+ radioButtonChoices += tvRg1.getText().toString();
+ tvRg3.setText(radioButtonChoices.substring(tvRg1.length()-5, tvRg1.length()));
+ } else {
+ }
+ if (rb4.isChecked()) {
+ radioButtonChoices += tvRg1.getText().toString();
+ tvRg3.setText(radioButtonChoices.substring(0,5));
+ } else {
+ }
+ }
+ });
+ }
+}

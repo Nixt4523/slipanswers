@@ -1,0 +1,275 @@
+SlipA1
+
+perfect.jsp
+<%@ page import="java.util.*" %>
+
+<%
+if(request.getParameter("s1")!=null)
+  {
+	Integer num,a,i,sum = 0;
+	
+	num = Integer.parseInt(request.getParameter("num"));
+	a = num;
+
+	for(i=1;i<a;i++)
+	{
+		if(a%i==0)
+		{
+			sum=sum + i;
+		}
+	}
+	if(sum==a)
+	{
+		out.println(+num+ "is a perfect number");
+	}
+	else
+	{
+		out.println(+num+ "is not a perfect number");
+	}
+  }	
+%>
+
+perfect.html
+<!DOCTYPE html>
+<html>
+<head>
+<title>PERFECT NUMBER</title>
+</head>
+<body>
+<form action="perfect.jsp" method="post">
+Enter Number :<input type="text" name="num">
+<input type="submit" value="Submit" name="s1">
+</form>
+</body>
+</html>
+
+
+SlipA2
+
+
+import java.awt.*;
+import java.applet.*;
+/* <APPLET     code= "flag.class"  width= "500" height= "300">
+     </APPLET> */
+public class flag extends Applet implements Runnable
+{
+    Thread t;
+    int x1,x2,x3,y3,x4,y4,x5,ln;
+    public void init(){
+            t=new Thread(this);
+            t.start();
+            ln=1;
+        }
+    public void run(){
+    try{      
+        if(ln==1) {         
+            for(x1=200;x1>100;){
+                t.sleep(200);
+                repaint();
+            }
+                }
+        ln=2;
+        if(ln==2) {        
+            for(x2=100;x2<150;){
+                t.sleep(200);
+                repaint();
+            }
+                }
+        ln=3;
+        if(ln==3) {       
+            for(x3=150,y3=100;x3>125&&y3<125;){
+                t.sleep(200);
+                repaint();
+            }
+                }
+        ln=4;
+        if(ln==4) {     
+            for(x4=125,y4=125;x4<150&&y4<150;){
+                t.sleep(200);
+                repaint();
+            }
+                }
+        ln=5;
+        if(ln==5)  {     
+            for(x5=150;x5>100;){
+                t.sleep(200);
+                repaint();
+            }
+                }
+        ln=1;
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        run();  
+    }
+    public void paint(Graphics g){
+        if(ln==1&&x1>100){
+            g.drawLine(100,200,100,x1-=5);
+        }
+        if(ln==2&&x2<150){
+            g.drawLine(100,200,100,100);
+            g.drawLine(100,100,x2+=5,100);
+        }
+        if(ln==3&&x3>125&&y3<125){
+            g.drawLine(100,200,100,100);
+            g.drawLine(100,100,150,100);
+            g.drawLine(150,100,x3-=5,y3+=5);
+        }
+        if(ln==4&&x4<150&&y4<150){
+            g.drawLine(100,200,100,100);
+            g.drawLine(100,100,150,100);
+            g.drawLine(150,100,125,125);
+            g.drawLine(125,125,x4+=5,y4+=5);
+        }
+        if(ln==5&&x5>100){
+            g.drawLine(100,200,100,100);
+            g.drawLine(100,100,150,100);
+            g.drawLine(150,100,125,125);
+            g.drawLine(125,125,150,150);
+            g.drawLine(150,150,x5-=5,150);
+        }                      
+    }
+}
+
+
+SlipB1
+
+XML FILE
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".MainActivity">
+<TextView
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="nitesh"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintLeft_toLeftOf="parent"
+app:layout_constraintRight_toRightOf="parent"
+app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+JAVA FILE
+
+package com.example.practicalslip21;
+import androidx.appcompat.app.AppCompatActivity;
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+public class MainActivity extends Activity {
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+Log.d("lifecycle","onCreate invoked");
+}
+@Override
+protected void onStart() {
+super.onStart();
+Log.d("lifecycle","onStart invoked");
+}
+@Override
+protected void onResume() {
+super.onResume();
+Log.d("lifecycle","onResume invoked");
+}
+@Override
+protected void onPause() {
+super.onPause();
+Log.d("lifecycle","onPause invoked");
+}
+@Override
+protected void onStop() {
+super.onStop();
+Log.d("lifecycle","onStop invoked");
+}
+@Override
+protected void onRestart() {
+super.onRestart();
+Log.d("lifecycle","onRestart invoked");
+}
+@Override
+protected void onDestroy() {
+super.onDestroy();
+Log.d("lifecycle","onDestroy invoked");
+}
+}
+
+
+SlipB2
+
+Xml file
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:app="http://schemas.android.com/apk/res-auto"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ tools:context=".MainActivity"
+ android:orientation="vertical">
+ <Button
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:id="@+id/bt_show"
+ android:text="show dialog"
+ android:layout_marginTop="50sp"
+ android:layout_gravity="center">
+ </Button>
+ <TextView
+ android:layout_width="match_parent"
+ android:layout_height="wrap_content"
+ android:id="@+id/txtdate"
+ android:textSize="30sp"
+ android:layout_marginTop="50sp"
+ android:layout_gravity="bottom">
+ </TextView>
+</LinearLayout>
+
+Mainactivity file
+
+package com.example.slip2_datepicker;
+import android.app.DatePickerDialog;
+import android.icu.util.Calendar;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TextView;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_main);
+ TextView txtdate=findViewById(R.id.txtdate);
+ Button bt_show=findViewById(R.id.bt_show);
+ bt_show.setOnClickListener(new View.OnClickListener() {
+ @RequiresApi(api = Build.VERSION_CODES.N)
+ @Override
+ public void onClick(View view) {
+ final Calendar calendar= Calendar.getInstance();
+ int date=calendar.get(Calendar.DATE);
+ int month=calendar.get(Calendar.MONTH);
+ int year=calendar.get(Calendar.YEAR);
+ DatePickerDialog pickerDialog = new DatePickerDialog(MainActivity.this, new 
+DatePickerDialog.OnDateSetListener() {
+ @Override
+ public void onDateSet(DatePicker datePicker, int year, int month, int date) {
+ txtdate.setText("Selected date is : "+date+"-"+month+"-"+year);
+ }
+ },year,month,date);
+ pickerDialog.show();
+ txtdate.setText("Selected date is :"+txtdate.getText());
+ }
+ });
+ }
+}
+

@@ -1,0 +1,74 @@
+SlipA1
+
+//html file
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form method="post" action="Slip15A.jsp">
+Enter name:<input type="text" name="name">
+Enter age:<input type="text" name="age">
+
+<input type="submit" value="Check">
+</form>
+</body>
+</html>
+
+//jsp file
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<font color=red>
+		<%
+			String name=request.getParameter("name");
+			String age=request.getParameter("age");
+
+			int ag=Integer.parseInt(age);
+			if(ag>=18)
+				out.println(name + " is eligiable for voting");
+			else
+				out.println(name + " is not eligiable for voting");
+			
+		%>
+	
+</body>
+</html>
+
+SlipA2
+
+import java.io.File;
+import java.util.Scanner;
+
+public class DisplayFilesWithExtension {
+
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the directory path: ");
+        String directoryPath = scanner.nextLine();
+
+        System.out.print("Enter the file extension (without dot): ");
+        String fileExtension = scanner.nextLine();
+
+        File directory = new File(directoryPath);
+        File[] files = directory.listFiles((dir, name) -> name.endsWith("." + fileExtension));
+
+        if (files.length == 0) {
+            System.out.println("No files found with the given extension in the directory.");
+        } else {
+            System.out.println("Files with ." + fileExtension + " extension in the directory:");
+            for (File file : files) {
+                System.out.println(file.getName());
+            }
+        }
+    }
+}

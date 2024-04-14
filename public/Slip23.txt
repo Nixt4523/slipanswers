@@ -1,0 +1,228 @@
+SlipA1
+
+package Connection;
+import java.sql.*;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+public class Ass1Q10 extends JFrame {
+
+    public Ass1Q10() {
+        DefaultTableModel model = new DefaultTableModel(new Object[]{"CID", "CName", "Address", "Year"}, 0);
+
+        try {         
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/prac", "root", "SYSTEM");
+
+            Statement statement = connection.createStatement();
+
+            
+            String sql = "SELECT Cid, Cname, Addr, Year FROM College";
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            
+            while (resultSet.next()) {
+                int cid = resultSet.getInt("Cid");
+                String cName = resultSet.getString("Cname");
+                String address = resultSet.getString("Addr");
+                int year = resultSet.getInt("Year");
+                model.addRow(new Object[]{cid, cName, address, year});
+            }
+
+            connection.close();
+        }catch (SQLException | ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+
+        JTable table = new JTable(model);
+        JScrollPane scrollPane = new JScrollPane(table);
+        add(scrollPane);
+        setTitle("College Details from Database");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new Ass1Q10();
+    }
+}
+
+
+SlipA2
+
+import java.io.*;
+import java.sql.*;
+import java.util.Properties;
+import javax.servlet.*;
+import javax.servlet.http.*;
+
+public class LoginServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+    private Connection connection;
+
+    @Override
+    public void init() throws ServletException {
+        // Load database configuration from properties file
+        Properties props = new Properties();
+        try {
+            props.load(getServletContext().getResourceAsStream("/dbconfig.properties"));
+            String dbUrl = props.getProperty("db.url");
+            String dbUsername = props.getProperty("db.username");
+            String dbPassword = props.getProperty("db.password");
+
+            // Establish a connection to the database
+            connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+        } catch (IOException | SQLException e) {
+            throw new ServletException("Failed to initialize database connection.", e);
+        }
+    }
+
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doPost(request, response);
+    }
+
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Get the username and password from the request parameters
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        // Check if the username and password are valid
+        boolean isValidUser = false;
+        try {
+            String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, username);
+            statement.setString(2, password);
+            ResultSet resultSet = statement.executeQuery();
+            isValidUser = resultSet.next();
+            statement.close();
+        } catch (SQLException e) {
+            throw new ServletException("Failed to search for user.", e);
+        }
+
+        // Send appropriate response based on search results
+        if (isValidUser) {
+            response.setContentType("text/html");
+            PrintWriter out = response.getWriter();
+            out.println("<html><body>");
+            out.println("<h2>Welcome, " + username + "!</h2>");
+            out.println("</body></html>");
+        } else {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid username or password.");
+        }
+    }
+
+    @Override
+    public void destroy() {
+        // Close the database connection
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to close database connection.", e);
+        }
+    }
+}
+
+
+SlipB1
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="52dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.562"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txtView"
+        android:layout_width="282dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="48dp"
+        android:text="Click on EditText to Display Dialog Box"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+       
+    <TextView
+        android:id="@+id/sol"
+        android:layout_width="181dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="414dp"
+        android:layout_marginBottom="100dp"
+        android:text=""
+        app:layout_constraintBottom_toTopOf="@+id/editText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtView" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+//main.java file
+
+package com.example.demo;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.DatePickerDialog;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import java.util.Calendar;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        EditText editText;
+        editText = findViewById(R.id.editText);
+        TextView sol = findViewById(R.id.sol);
+
+        editText.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                final Calendar  calendar= Calendar.getInstance();
+                int date = calendar.get(Calendar.DATE);
+                int month = calendar.get(Calendar.MONTH);
+                int year = calendar.get(Calendar.YEAR);
+
+                DatePickerDialog pickerDialog = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        sol.setText("Selected DAte is :"+year+"-"+month+"-"+date);
+                    }
+                },year,month,date);
+                pickerDialog.show();
+                   }
+        });
+    }
+}
